@@ -11,14 +11,15 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #dbeafe 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         /* LOCK SCREEN */
@@ -43,7 +44,7 @@
 
         .lock-container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px 30px;
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
@@ -108,7 +109,7 @@
         .main-menu {
             display: none;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #dbeafe 100%);
             flex-direction: column;
             align-items: center;
@@ -189,8 +190,7 @@
             width: 100%;
             min-height: 100vh;
             background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #dbeafe 100%);
-            padding: 20px;
-            padding-top: 80px;
+            padding: 30px 20px;
         }
 
         .page.active {
@@ -202,6 +202,11 @@
             align-items: center;
             gap: 20px;
             margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #dbeafe 100%);
+            padding: 10px 0;
+            z-index: 100;
         }
 
         .back-btn {
@@ -213,6 +218,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            flex-shrink: 0;
         }
 
         .back-btn:hover {
@@ -221,16 +227,17 @@
 
         .page-header h2 {
             color: #ec4899;
-            font-size: 32px;
+            font-size: 28px;
         }
 
         /* ASSOCIATIONS */
         .associations-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
+            padding-bottom: 50px;
         }
 
         .association-card {
@@ -249,14 +256,15 @@
 
         .assoc-image {
             width: 100%;
-            height: 220px;
+            height: 200px;
             object-fit: cover;
+            background: linear-gradient(135deg, #e9d5ff, #dbeafe);
         }
 
         .association-card h3 {
             padding: 15px 20px 5px;
             color: #ec4899;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .show-text-btn {
@@ -269,6 +277,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            font-size: 14px;
         }
 
         .show-text-btn:hover {
@@ -302,8 +311,9 @@
 
         /* GAME */
         .game-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
+            padding-bottom: 50px;
         }
 
         .cake-preview {
@@ -312,6 +322,10 @@
             margin-bottom: 40px;
             min-height: 300px;
             align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .cake {
@@ -319,6 +333,9 @@
             position: relative;
             width: 200px;
             height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .cake-base {
@@ -333,6 +350,8 @@
             color: #a78bfa;
             font-weight: 600;
             font-size: 16px;
+            text-align: center;
+            padding: 20px;
         }
 
         .game-levels {
@@ -429,8 +448,9 @@
 
         /* LETTER */
         .letter-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
+            padding-bottom: 50px;
         }
 
         .letter-content {
@@ -463,7 +483,7 @@
             }
 
             .page-header h2 {
-                font-size: 24px;
+                font-size: 22px;
             }
 
             .associations-container {
@@ -472,6 +492,14 @@
 
             .lock-container {
                 width: 90%;
+            }
+
+            body {
+                font-size: 14px;
+            }
+
+            .cake-preview {
+                min-height: 250px;
             }
         }
     </style>
@@ -529,42 +557,42 @@
         </div>
         <div class="associations-container">
             <div class="association-card">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23e9d5ff' width='400' height='220'/%3E%3C/svg%3E" alt="Даен" class="assoc-image" id="img1">
+                <img src="https://i.imgur.com/pXkqB2J.png" alt="Даен" class="assoc-image">
                 <h3>Даен</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">даен ты мне ее напоминаешь по характеру, и ты тупа она, когда смотрела тебя с ней сравнивала ( ⸝⸝•ᴗ•⸝⸝ )੭⁾⁾</p>
             </div>
 
             <div class="association-card">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23e9d5ff' width='400' height='220'/%3E%3C/svg%3E" alt="Аркейн" class="assoc-image" id="img2">
+                <img src="https://i.imgur.com/mNvQzK8.jpg" alt="Аркейн" class="assoc-image">
                 <h3>Аркейн</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">ты у меня ассоциируешься с аркейном потому что мы смотрели его вместе и мне вправду очень понравилось!! ты у меня паудер там ассоциируешься ( ˘ω˘ )</p>
             </div>
 
             <div class="association-card">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23e9d5ff' width='400' height='220'/%3E%3C/svg%3E" alt="Одуванчики" class="assoc-image" id="img3">
+                <img src="https://i.imgur.com/9Zt3x5L.jpg" alt="Одуванчики" class="assoc-image">
                 <h3>Одуванчики</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">цветы эти поскольку они имеют 2 состояния, как зарождение (?) и уже потом он во второй фазе. Я ОЧЕНЬ ПЛОХО ОБЬЯСНЯЮ, но злат, ты поняла да (´∀｀)</p>
             </div>
 
             <div class="association-card">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%234E0000' width='400' height='220'/%3E%3C/svg%3E" alt="Темно красный" class="assoc-image" id="img4">
+                <img src="https://i.imgur.com/5CxVkQH.jpg" alt="Темно красный" class="assoc-image">
                 <h3>Темно красный</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">темно красный поскольку у тебя майка и закос на эпл джек был и сразу вспоминаю просто..🐾🐾٩(๑❛ᴗ❛๑)۶</p>
             </div>
 
             <div class="association-card">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%231a1a2e' width='400' height='220'/%3E%3C/svg%3E" alt="Ночь с грозой" class="assoc-image" id="img5">
+                <img src="https://i.imgur.com/7J8kQp5.jpg" alt="Ночь с грозой" class="assoc-image">
                 <h3>Ночь с грозой</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">я помню как с тобой переписывалась во время такой погоды, и из-за этого и ассоциация</p>
             </div>
 
             <div class="association-card">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23fef3c7' width='400' height='220'/%3E%3C/svg%3E" alt="Фрукты" class="assoc-image" id="img6">
+                <img src="https://i.imgur.com/2PqX3Rk.jpg" alt="Фрукты" class="assoc-image">
                 <h3>Фрукты</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">я не знаю даж почему, но это просто твой вайб</p>
@@ -581,8 +609,8 @@
         <div class="game-container">
             <div class="cake-preview">
                 <div class="cake" id="cakePreview">
-                    <div class="cake-base" id="cakeBase" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22250%22%3E%3Crect fill=%22%23f3e8ff%22 width=%22200%22 height=%22250%22/%3E%3C/svg%3E'); color: #a78bfa;">
-                        Выбери основу
+                    <div class="cake-base" id="cakeBase" style="color: #a78bfa;">
+                        🎂 Выбери основу
                     </div>
                 </div>
             </div>
@@ -700,22 +728,25 @@
         function goToMenu() {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('mainMenu').classList.add('active');
+            window.scrollTo(0, 0);
         }
 
         function goToAssociations() {
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('associationsPage').classList.add('active');
-            loadImages();
+            window.scrollTo(0, 0);
         }
 
         function goToGame() {
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('gamePage').classList.add('active');
+            window.scrollTo(0, 0);
         }
 
         function goToLetter() {
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('letterPage').classList.add('active');
+            window.scrollTo(0, 0);
         }
 
         function toggleText(btn) {
@@ -724,32 +755,13 @@
             btn.textContent = text.classList.contains('show') ? 'Скрыть ←' : 'Узнать больше →';
         }
 
-        function loadImages() {
-            // Загружаем картинки с временной задержкой для демонстрации
-            // В реальном проекте это должны быть ссылки на GitHub или CDN
-            const images = [
-                { id: 'img1', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%23c4b5fd%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3E👧 Даен%3C/text%3E%3C/svg%3E' },
-                { id: 'img2', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%236d28d9%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22 fill=%22white%22%3E🎬 Аркейн%3C/text%3E%3C/svg%3E' },
-                { id: 'img3', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%23fef08a%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3E🌼 Одуванчики%3C/text%3E%3C/svg%3E' },
-                { id: 'img4', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%234E0000%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22 fill=%22white%22%3E🔴 Темно красный%3C/text%3E%3C/svg%3E' },
-                { id: 'img5', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%231a1a2e%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22 fill=%22%23fbbf24%22%3E⚡ Гроза%3C/text%3E%3C/svg%3E' },
-                { id: 'img6', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%23fef3c7%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3E🍓 Фрукты%3C/text%3E%3C/svg%3E' }
-            ];
-            
-            images.forEach(img => {
-                const el = document.getElementById(img.id);
-                if (el) {
-                    el.src = img.url;
-                }
-            });
-        }
-
         function selectBase(name, color) {
             currentBase = name;
             const cake = document.getElementById('cakeBase');
             cake.style.backgroundColor = color;
             cake.textContent = '🍰 ' + name;
             cake.style.color = 'white';
+            cake.style.fontWeight = 'bold';
             
             document.getElementById('level1').classList.remove('active');
             document.getElementById('level2').classList.add('active');
@@ -762,11 +774,16 @@
         }
 
         function cookCake() {
+            const level3 = document.getElementById('level3');
+            const btn = level3.querySelector('.option-btn');
             const progress = document.getElementById('cookingProgress');
+            
+            btn.style.display = 'none';
             progress.classList.remove('hidden');
             
             setTimeout(() => {
                 progress.classList.add('hidden');
+                btn.style.display = 'block';
                 document.getElementById('level3').classList.remove('active');
                 document.getElementById('level4').classList.add('active');
             }, 3000);
@@ -775,14 +792,14 @@
         function selectDecoration(name) {
             currentDecoration = name;
             const cake = document.getElementById('cakeBase');
-            cake.textContent = '🎉 ' + currentBase + ' с ' + currentCream + ' и ' + name;
+            cake.textContent = '🎉 ' + currentBase + '\n+ ' + currentCream + '\n+ ' + name;
             
             document.getElementById('level4').classList.remove('active');
             document.getElementById('level5').classList.add('active');
         }
 
         function blowCandles() {
-            alert('🎉 Поздравляю! Вот такой красивый торт получился! 🎂✨');
+            alert('🎉 Поздравляю! Вот такой красивый торт получился! 🎂✨\n\nС днем рождения, Злата! 💕');
             goToMenu();
         }
     </script>
