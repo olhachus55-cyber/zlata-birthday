@@ -4,15 +4,488 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Поздравление Злате 🎉</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #dbeafe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* LOCK SCREEN */
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .lock-screen.active {
+            display: flex;
+        }
+
+        .lock-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            width: 320px;
+        }
+
+        .lock-hint {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ec4899;
+            font-weight: 600;
+        }
+
+        .lock-instructions {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .lock-display {
+            font-size: 32px;
+            letter-spacing: 10px;
+            margin: 30px 0;
+            color: #a78bfa;
+            font-weight: bold;
+            min-height: 50px;
+        }
+
+        .lock-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .key {
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #e9d5ff;
+            background: linear-gradient(135deg, #fce7f3, #f3e8ff);
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #7c3aed;
+            transition: all 0.2s;
+        }
+
+        .key:hover {
+            background: linear-gradient(135deg, #fbcfe8, #ede9fe);
+            transform: scale(1.05);
+        }
+
+        .key.delete {
+            grid-column: 3;
+            background: linear-gradient(135deg, #fecaca, #fca5a5);
+            color: #dc2626;
+        }
+
+        /* MAIN MENU */
+        .main-menu {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #dbeafe 100%);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .main-menu.active {
+            display: flex;
+        }
+
+        .menu-content {
+            text-align: center;
+        }
+
+        .menu-title {
+            font-size: 48px;
+            color: #ec4899;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 300px;
+        }
+
+        .menu-btn {
+            padding: 20px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .associations-btn {
+            background: linear-gradient(135deg, #a78bfa, #c084fc);
+        }
+
+        .associations-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(167, 139, 250, 0.4);
+        }
+
+        .game-btn {
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+        }
+
+        .game-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.4);
+        }
+
+        .letter-btn {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+
+        .letter-btn:hover:not(:disabled) {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(96, 165, 250, 0.4);
+        }
+
+        .letter-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* PAGES */
+        .page {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #dbeafe 100%);
+            padding: 20px;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #e879f9, #d946ef);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .page-header h2 {
+            color: #ec4899;
+            font-size: 32px;
+        }
+
+        /* ASSOCIATIONS */
+        .associations-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .association-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            padding: 0;
+        }
+
+        .association-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .assoc-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .association-card h3 {
+            padding: 15px 20px 5px;
+            color: #ec4899;
+            font-size: 22px;
+        }
+
+        .show-text-btn {
+            margin: 10px 20px;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #a78bfa, #c084fc);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .show-text-btn:hover {
+            background: linear-gradient(135deg, #9370db, #b369f5);
+        }
+
+        .hidden-text {
+            display: none;
+            padding: 15px 20px 20px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .hidden-text.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* GAME */
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cake-preview {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            min-height: 300px;
+            align-items: center;
+        }
+
+        .cake {
+            text-align: center;
+            position: relative;
+            width: 200px;
+            height: 250px;
+        }
+
+        .cake-base {
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a78bfa;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .game-levels {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .level {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .level.active {
+            display: block;
+        }
+
+        .level h3 {
+            color: #ec4899;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .option-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.3);
+        }
+
+        .option-btn.full-width {
+            width: 100%;
+        }
+
+        .cooking-animation {
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9d5ff;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, #a78bfa, #c084fc);
+            animation: progress 3s ease-out;
+        }
+
+        @keyframes progress {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* LETTER */
+        .letter-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .letter-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            line-height: 2;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .letter-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .signature {
+            text-align: right;
+            color: #ec4899;
+            font-weight: 600;
+            margin-top: 30px;
+            font-size: 18px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .menu-title {
+                font-size: 36px;
+            }
+
+            .page-header h2 {
+                font-size: 24px;
+            }
+
+            .associations-container {
+                grid-template-columns: 1fr;
+            }
+
+            .lock-container {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- LOCK SCREEN -->
     <div id="lockScreen" class="lock-screen active">
         <div class="lock-container">
             <div class="lock-hint">🎂 День рождения</div>
+            <div class="lock-instructions">
+                Введи месяц (09)<br>потом день (05)
+            </div>
             <div class="lock-display">
-                <span id="passwordDisplay">⏺ ⏺ ⏺ ⏺ ⏺</span>
+                <span id="passwordDisplay">⏺ ⏺ ⏺ ⏺</span>
             </div>
             <div class="lock-keypad">
                 <button class="key" onclick="addDigit('0')">0</button>
@@ -39,9 +512,9 @@
                     🎵 Мои ассоциации
                 </button>
                 <button class="menu-btn game-btn" onclick="goToGame()">
-                    🎂 Мини игра
+                    🎂 Создай торт
                 </button>
-                <button class="menu-btn letter-btn" id="letterBtn" onclick="goToLetter()" disabled>
+                <button class="menu-btn letter-btn" id="letterBtn" onclick="goToLetter()">
                     💌 Письмо
                 </button>
             </div>
@@ -56,42 +529,42 @@
         </div>
         <div class="associations-container">
             <div class="association-card">
-                <img src="https://images.unsplash.com/photo-1545291026-12d3eeed4b0e?w=400" alt="Аркейн" class="assoc-image">
-                <h3>Аркейн</h3>
-                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
-                <p class="hidden-text">ты у меня ассоциируешься с аркейном потому что мы смотрели его вместе и мне вправду очень понравилось!! ты у меня паудер там ассоциируешься ( ˘ω˘ )</p>
-            </div>
-
-            <div class="association-card">
-                <img src="https://images.unsplash.com/photo-1534528741775-74bbb4ea2d60?w=400" alt="Даен" class="assoc-image">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23e9d5ff' width='400' height='220'/%3E%3C/svg%3E" alt="Даен" class="assoc-image" id="img1">
                 <h3>Даен</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">даен ты мне ее напоминаешь по характеру, и ты тупа она, когда смотрела тебя с ней сравнивала ( ⸝⸝•ᴗ•⸝⸝ )੭⁾⁾</p>
             </div>
 
             <div class="association-card">
-                <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400" alt="Одуванчики" class="assoc-image">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23e9d5ff' width='400' height='220'/%3E%3C/svg%3E" alt="Аркейн" class="assoc-image" id="img2">
+                <h3>Аркейн</h3>
+                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
+                <p class="hidden-text">ты у меня ассоциируешься с аркейном потому что мы смотрели его вместе и мне вправду очень понравилось!! ты у меня паудер там ассоциируешься ( ˘ω˘ )</p>
+            </div>
+
+            <div class="association-card">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23e9d5ff' width='400' height='220'/%3E%3C/svg%3E" alt="Одуванчики" class="assoc-image" id="img3">
                 <h3>Одуванчики</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">цветы эти поскольку они имеют 2 состояния, как зарождение (?) и уже потом он во второй фазе. Я ОЧЕНЬ ПЛОХО ОБЬЯСНЯЮ, но злат, ты поняла да (´∀｀)</p>
             </div>
 
             <div class="association-card">
-                <img src="https://images.unsplash.com/photo-1578987530307-a471b8fb0480?w=400" alt="Темно красный" class="assoc-image">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%234E0000' width='400' height='220'/%3E%3C/svg%3E" alt="Темно красный" class="assoc-image" id="img4">
                 <h3>Темно красный</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
-                <p class="hidden-text">темно красный поскольку у тебя майка и закос на эпл джек был и сразу вспомнимаю просто..🐾🐾٩(๑❛ᴗ❛๑)۶</p>
+                <p class="hidden-text">темно красный поскольку у тебя майка и закос на эпл джек был и сразу вспоминаю просто..🐾🐾٩(๑❛ᴗ❛๑)۶</p>
             </div>
 
             <div class="association-card">
-                <img src="https://images.unsplash.com/photo-1534274988757-a28bf1a4c817?w=400" alt="Ночь с грозой" class="assoc-image">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%231a1a2e' width='400' height='220'/%3E%3C/svg%3E" alt="Ночь с грозой" class="assoc-image" id="img5">
                 <h3>Ночь с грозой</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">я помню как с тобой переписывалась во время такой погоды, и из-за этого и ассоциация</p>
             </div>
 
             <div class="association-card">
-                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" alt="Фрукты" class="assoc-image">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23fef3c7' width='400' height='220'/%3E%3C/svg%3E" alt="Фрукты" class="assoc-image" id="img6">
                 <h3>Фрукты</h3>
                 <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
                 <p class="hidden-text">я не знаю даж почему, но это просто твой вайб</p>
@@ -103,24 +576,24 @@
     <div id="gamePage" class="page">
         <div class="page-header">
             <button class="back-btn" onclick="goToMenu()">← Назад</button>
-            <h2>🎂 Создай свой торт</h2>
+            <h2>🎂 Создай торт</h2>
         </div>
         <div class="game-container">
             <div class="cake-preview">
                 <div class="cake" id="cakePreview">
-                    <div class="cake-base" id="cakeBase">Выбери основу</div>
-                    <div class="cake-cream" id="cakeCream"></div>
-                    <div class="cake-decoration" id="cakeDecoration"></div>
+                    <div class="cake-base" id="cakeBase" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22250%22%3E%3Crect fill=%22%23f3e8ff%22 width=%22200%22 height=%22250%22/%3E%3C/svg%3E'); color: #a78bfa;">
+                        Выбери основу
+                    </div>
                 </div>
             </div>
 
             <div class="game-levels">
-                <div class="level" id="level1">
+                <div class="level active" id="level1">
                     <h3>🍰 Уровень 1: Основа бисквита</h3>
                     <div class="options">
-                        <button class="option-btn" onclick="selectBase('Ванильный')">🟡 Ванильный</button>
-                        <button class="option-btn" onclick="selectBase('Шоколадный')">🟤 Шоколадный</button>
-                        <button class="option-btn" onclick="selectBase('Клубничный')">🔴 Клубничный</button>
+                        <button class="option-btn" onclick="selectBase('Ванильный', '#fef3c7')">🟡 Ванильный</button>
+                        <button class="option-btn" onclick="selectBase('Шоколадный', '#92400e')">🟤 Шоколадный</button>
+                        <button class="option-btn" onclick="selectBase('Клубничный', '#fecaca')">🔴 Клубничный</button>
                     </div>
                 </div>
 
@@ -184,6 +657,134 @@
         </div>
     </div>
 
-    <script src="https://olhachus55-cyber.github.io/zlata-birthday/script.js"></script>
+    <script>
+        let password = '';
+        let currentBase = '';
+        let currentCream = '';
+        let currentDecoration = '';
+
+        function addDigit(digit) {
+            if (password.length < 4) {
+                password += digit;
+                updatePasswordDisplay();
+                if (password.length === 4) {
+                    checkPassword();
+                }
+            }
+        }
+
+        function deleteDigit() {
+            password = password.slice(0, -1);
+            updatePasswordDisplay();
+        }
+
+        function updatePasswordDisplay() {
+            const display = '⏺ '.repeat(password.length) + '⏺ '.repeat(4 - password.length);
+            document.getElementById('passwordDisplay').textContent = display.trim();
+        }
+
+        function checkPassword() {
+            if (password === '0905') {
+                setTimeout(() => {
+                    document.getElementById('lockScreen').classList.remove('active');
+                    document.getElementById('mainMenu').classList.add('active');
+                    document.getElementById('letterBtn').disabled = false;
+                }, 300);
+            } else {
+                password = '';
+                updatePasswordDisplay();
+                alert('Неправильно! Попробуй ещё раз 🔐');
+            }
+        }
+
+        function goToMenu() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('mainMenu').classList.add('active');
+        }
+
+        function goToAssociations() {
+            document.getElementById('mainMenu').classList.remove('active');
+            document.getElementById('associationsPage').classList.add('active');
+            loadImages();
+        }
+
+        function goToGame() {
+            document.getElementById('mainMenu').classList.remove('active');
+            document.getElementById('gamePage').classList.add('active');
+        }
+
+        function goToLetter() {
+            document.getElementById('mainMenu').classList.remove('active');
+            document.getElementById('letterPage').classList.add('active');
+        }
+
+        function toggleText(btn) {
+            const text = btn.nextElementSibling;
+            text.classList.toggle('show');
+            btn.textContent = text.classList.contains('show') ? 'Скрыть ←' : 'Узнать больше →';
+        }
+
+        function loadImages() {
+            // Загружаем картинки с временной задержкой для демонстрации
+            // В реальном проекте это должны быть ссылки на GitHub или CDN
+            const images = [
+                { id: 'img1', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%23c4b5fd%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3E👧 Даен%3C/text%3E%3C/svg%3E' },
+                { id: 'img2', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%236d28d9%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22 fill=%22white%22%3E🎬 Аркейн%3C/text%3E%3C/svg%3E' },
+                { id: 'img3', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%23fef08a%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3E🌼 Одуванчики%3C/text%3E%3C/svg%3E' },
+                { id: 'img4', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%234E0000%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22 fill=%22white%22%3E🔴 Темно красный%3C/text%3E%3C/svg%3E' },
+                { id: 'img5', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%231a1a2e%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22 fill=%22%23fbbf24%22%3E⚡ Гроза%3C/text%3E%3C/svg%3E' },
+                { id: 'img6', url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22220%22%3E%3Crect fill=%22%23fef3c7%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3E🍓 Фрукты%3C/text%3E%3C/svg%3E' }
+            ];
+            
+            images.forEach(img => {
+                const el = document.getElementById(img.id);
+                if (el) {
+                    el.src = img.url;
+                }
+            });
+        }
+
+        function selectBase(name, color) {
+            currentBase = name;
+            const cake = document.getElementById('cakeBase');
+            cake.style.backgroundColor = color;
+            cake.textContent = '🍰 ' + name;
+            cake.style.color = 'white';
+            
+            document.getElementById('level1').classList.remove('active');
+            document.getElementById('level2').classList.add('active');
+        }
+
+        function selectCream(name) {
+            currentCream = name;
+            document.getElementById('level2').classList.remove('active');
+            document.getElementById('level3').classList.add('active');
+        }
+
+        function cookCake() {
+            const progress = document.getElementById('cookingProgress');
+            progress.classList.remove('hidden');
+            
+            setTimeout(() => {
+                progress.classList.add('hidden');
+                document.getElementById('level3').classList.remove('active');
+                document.getElementById('level4').classList.add('active');
+            }, 3000);
+        }
+
+        function selectDecoration(name) {
+            currentDecoration = name;
+            const cake = document.getElementById('cakeBase');
+            cake.textContent = '🎉 ' + currentBase + ' с ' + currentCream + ' и ' + name;
+            
+            document.getElementById('level4').classList.remove('active');
+            document.getElementById('level5').classList.add('active');
+        }
+
+        function blowCandles() {
+            alert('🎉 Поздравляю! Вот такой красивый торт получился! 🎂✨');
+            goToMenu();
+        }
+    </script>
 </body>
 </html>
