@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поздравление Злате 🎉</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- LOCK SCREEN -->
+    <div id="lockScreen" class="lock-screen active">
+        <div class="lock-container">
+            <div class="lock-hint">🎂 День рождения</div>
+            <div class="lock-display">
+                <span id="passwordDisplay">⏺ ⏺ ⏺ ⏺ ⏺</span>
+            </div>
+            <div class="lock-keypad">
+                <button class="key" onclick="addDigit('0')">0</button>
+                <button class="key" onclick="addDigit('1')">1</button>
+                <button class="key" onclick="addDigit('2')">2</button>
+                <button class="key" onclick="addDigit('3')">3</button>
+                <button class="key" onclick="addDigit('4')">4</button>
+                <button class="key" onclick="addDigit('5')">5</button>
+                <button class="key" onclick="addDigit('6')">6</button>
+                <button class="key" onclick="addDigit('7')">7</button>
+                <button class="key" onclick="addDigit('8')">8</button>
+                <button class="key" onclick="addDigit('9')">9</button>
+                <button class="key delete" onclick="deleteDigit()">❌</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN MENU -->
+    <div id="mainMenu" class="main-menu">
+        <div class="menu-content">
+            <h1 class="menu-title">✨ Добро пожаловать! ✨</h1>
+            <div class="menu-buttons">
+                <button class="menu-btn associations-btn" onclick="goToAssociations()">
+                    🎵 Мои ассоциации
+                </button>
+                <button class="menu-btn game-btn" onclick="goToGame()">
+                    🎂 Мини игра
+                </button>
+                <button class="menu-btn letter-btn" id="letterBtn" onclick="goToLetter()" disabled>
+                    💌 Письмо
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ASSOCIATIONS PAGE -->
+    <div id="associationsPage" class="page">
+        <div class="page-header">
+            <button class="back-btn" onclick="goToMenu()">← Назад</button>
+            <h2>🎵 Мои ассоциации</h2>
+        </div>
+        <div class="associations-container">
+            <div class="association-card">
+                <img src="assets/arcane.jpg" alt="Аркейн" class="assoc-image">
+                <h3>Аркейн</h3>
+                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
+                <p class="hidden-text">ты у меня ассоциируешься с аркейном потому что мы смотрели его вместе и мне вправду очень понравилось!! ты у меня паудер там ассоциируешься ( ˘ω˘ )</p>
+            </div>
+
+            <div class="association-card">
+                <img src="assets/daen.jpg" alt="Даен" class="assoc-image">
+                <h3>Даен</h3>
+                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
+                <p class="hidden-text">даен ты мне ее напоминаешь по характеру, и ты тупа она, когда смотрела тебя с ней сравнивала ( ⸝⸝•ᴗ•⸝⸝ )੭⁾⁾</p>
+            </div>
+
+            <div class="association-card">
+                <img src="assets/dandelions.jpg" alt="Одуванчики" class="assoc-image">
+                <h3>Одуванчики</h3>
+                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
+                <p class="hidden-text">цветы эти поскольку они имеют 2 состояния, как зарождение (?) и уже потом он во второй фазе. Я ОЧЕНЬ ПЛОХО ОБЬЯСНЯЮ, но злат, ты поняла да (´∀｀)</p>
+            </div>
+
+            <div class="association-card">
+                <img src="assets/red-inferno.jpg" alt="Темно красный" class="assoc-image">
+                <h3>Темно красный</h3>
+                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
+                <p class="hidden-text">темно красный поскольку у тебя майка и закос на эпл джек был и сразу вспомнимаю просто..🐾🐾٩(๑❛ᴗ❛๑)۶</p>
+            </div>
+
+            <div class="association-card">
+                <img src="assets/storm.jpg" alt="Ночь с грозой" class="assoc-image">
+                <h3>Ночь с грозой</h3>
+                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
+                <p class="hidden-text">я помню как с тобой переписывалась во время такой погоды, и из-за этого и ассоциация</p>
+            </div>
+
+            <div class="association-card">
+                <img src="assets/fruits.jpg" alt="Фрукты" class="assoc-image">
+                <h3>Фрукты</h3>
+                <button class="show-text-btn" onclick="toggleText(this)">Узнать больше →</button>
+                <p class="hidden-text">я не знаю даж почему, но это просто твой вайб</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CAKE GAME PAGE -->
+    <div id="gamePage" class="page">
+        <div class="page-header">
+            <button class="back-btn" onclick="goToMenu()">← Назад</button>
+            <h2>🎂 Создай свой торт</h2>
+        </div>
+        <div class="game-container">
+            <div class="cake-preview">
+                <div class="cake" id="cakePreview">
+                    <div class="cake-base" id="cakeBase">Выбери основу</div>
+                    <div class="cake-cream" id="cakeCream"></div>
+                    <div class="cake-decoration" id="cakeDecoration"></div>
+                </div>
+            </div>
+
+            <div class="game-levels">
+                <div class="level" id="level1">
+                    <h3>🍰 Уровень 1: Основа бисквита</h3>
+                    <div class="options">
+                        <button class="option-btn" onclick="selectBase('Ванильный')">🟡 Ванильный</button>
+                        <button class="option-btn" onclick="selectBase('Шоколадный')">🟤 Шоколадный</button>
+                        <button class="option-btn" onclick="selectBase('Клубничный')">🔴 Клубничный</button>
+                    </div>
+                </div>
+
+                <div class="level hidden" id="level2">
+                    <h3>🍦 Уровень 2: Крем</h3>
+                    <div class="options">
+                        <button class="option-btn" onclick="selectCream('Сливочный')">🤍 Сливочный</button>
+                        <button class="option-btn" onclick="selectCream('Шоколадный')">🤎 Шоколадный</button>
+                        <button class="option-btn" onclick="selectCream('Ягодный')">💜 Ягодный</button>
+                    </div>
+                </div>
+
+                <div class="level hidden" id="level3">
+                    <h3>👨‍🍳 Уровень 3: Готовка</h3>
+                    <div class="cooking-animation">
+                        <button class="option-btn full-width" onclick="cookCake()">🔥 Готовить торт</button>
+                        <div id="cookingProgress" class="hidden">
+                            <div class="progress-bar"></div>
+                            <p>Готовим... 🍰</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="level hidden" id="level4">
+                    <h3>✨ Уровень 4: Украшения</h3>
+                    <div class="options">
+                        <button class="option-btn" onclick="selectDecoration('Свечи')">🕯️ Свечи</button>
+                        <button class="option-btn" onclick="selectDecoration('Ягоды')">🫐 Ягоды</button>
+                        <button class="option-btn" onclick="selectDecoration('Посыпка')">✨ Посыпка</button>
+                    </div>
+                </div>
+
+                <div class="level hidden" id="level5">
+                    <h3>🎉 Уровень 5: Задуй свечи</h3>
+                    <div class="options">
+                        <button class="option-btn full-width" onclick="blowCandles()">💨 Задуть свечи</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LETTER PAGE -->
+    <div id="letterPage" class="page">
+        <div class="page-header">
+            <button class="back-btn" onclick="goToMenu()">← Назад</button>
+            <h2>💌 Письмо</h2>
+        </div>
+        <div class="letter-container">
+            <div class="letter-content">
+                <p>и так… я очень плохо пишу подобное и я не смогу передать то что я хочу и как я тебя люблю (•̀ᴗ•́)و</p>
+
+                <p>но я тебе хочу сказать - ты самый мой любимый человек, я тебя ценю. желаю тебе всего самого наилучшего, чтоб ты получила все что ты хотела, чтоб ты переехала в сербию, получила мастера в бс!! чтоб вылечилась и была здорова и счастлива.</p>
+
+                <p>я не смогу представить свою жизнь без тебя и правда желаю тебе этого всего.</p>
+
+                <p>поэтому проведи этот день АХУЕННО!! чтоб ты провела этот день хорошо, чтоб был отличный концерт, чтоб еда в этот день была вкусная и настроение твое такое же ♥️♥️</p>
+
+                <p class="signature">с днем рождения, златусь</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
